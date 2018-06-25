@@ -5,12 +5,6 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Reservazyon</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                    <span data-feather="calendar"></span>
-                    Bu hafta
-                </button>
-            </div>
         </div>
 
         <div class="table-responsive">
@@ -19,9 +13,9 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Özet</th>
-                    <th>Açıklama</th>
-                    <th>Durum</th>
+                    <th>Ad Soyad</th>
+                    <th>Telefon</th>
+                    <th>Tarih</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -29,9 +23,9 @@
                 @foreach($reservations as $reservation)
                 <tr>
                     <td>{{ $reservation -> id }}</td>
-                    <td>{{ $reservation -> summary }}</td>
-                    <td>{{ $reservation -> description }}</td>
-                    <td>{{ $reservation -> status }}</td>
+                    <td>{{ $reservation -> adsoyad }}</td>
+                    <td>{{ $reservation -> telefon }}</td>
+                    <td>{{ $reservation -> tarih }}</td>
                     <td>
                         <a href="/reservation/{{$reservation -> id}}" class="btn btn-primary">Güncelle</a>
                         <a href="/reservation/delete/{{$reservation -> id}}" class="btn btn-danger">Sil</a>

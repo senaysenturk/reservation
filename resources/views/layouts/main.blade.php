@@ -11,6 +11,9 @@
     <div class="row">
 
         @include('layouts.partials.sidebar')
+
+        @include('layouts.partials.alerts')
+
         @yield('content')
 
     </div>

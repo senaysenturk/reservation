@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -43,12 +44,18 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        Reservation::create([
-            'summary' => request ('summary'),
-            'description' => request('description'),
-            'status' => request('status')
+        $request->validate([
+           'adsoyad' => 'required',
+            'telefon' => 'required',
+            'tarih' => 'required'
         ]);
-        return redirect() ->route('reservations.index');
+
+        Reservation::firstOrNew([
+            'adsoyad' => request ('adsoyad'),
+            'telefon' => request('telefon'),
+            'tarih' => date("Y-m-d H:i:s", strtotime(request('tarih')))
+        ]);
+        return redirect() ->route('reservations.index')->withSuccess('Rezervasyon eklendi');
     }
 
     /**
@@ -82,12 +89,18 @@ class ReservationController extends Controller
      */
     public function update(Request $request, Reservation $reservation)
     {
-        $reservation -> summary = request('summary');
-        $reservation -> description = request('description');
-        $reservation -> status = request('status');
+        $request->validate([
+            'adsoyad' => 'required',
+            'telefon' => 'required',
+            'tarih' => 'required'
+        ]);
+
+        $reservation -> adsoyad = request('adsoyad');
+        $reservation -> telefon = request('telefon');
+        $reservation -> tarih = date("Y-m-d H:i:s", strtotime(request('tarih')));
         $reservation -> save();
 
-        return redirect()-> route('reservations.index');
+        return redirect()-> route('reservations.index')->withSuccess('Rezervasyon güncellendi');
     }
 
     /**
@@ -99,6 +112,6 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         $reservation -> delete();
-        return redirect() -> route('reservations.index');
+        return redirect() -> route('reservations.index')->withErrors('Rezervasyon silindi!');
     }
 }
