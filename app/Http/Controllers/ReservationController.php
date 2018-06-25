@@ -45,17 +45,18 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'adsoyad' => 'required',
-            'telefon' => 'required',
-            'tarih' => 'required'
+           'adsoyad' => 'required|unique:reservations',
+            'telefon' => 'required|unique:reservations',
+            'tarih' => 'required|date|after:now'
         ]);
 
-        Reservation::firstOrNew([
+        Reservation::firstOrCreate([
             'adsoyad' => request ('adsoyad'),
             'telefon' => request('telefon'),
             'tarih' => date("Y-m-d H:i:s", strtotime(request('tarih')))
         ]);
         return redirect() ->route('reservations.index')->withSuccess('Rezervasyon eklendi');
+
     }
 
     /**
