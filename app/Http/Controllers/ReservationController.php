@@ -45,12 +45,12 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'adsoyad' => 'required|unique:reservations',
-            'telefon' => 'required|unique:reservations',
-            'tarih' => 'required|date|after:now'
+           'adsoyad' => 'required',
+            'telefon' => 'required',
+            'tarih' => 'required|date|unique:reservations,tarih'
         ]);
 
-        Reservation::firstOrCreate([
+        Reservation::create([
             'adsoyad' => request ('adsoyad'),
             'telefon' => request('telefon'),
             'tarih' => date("Y-m-d H:i:s", strtotime(request('tarih')))
@@ -113,6 +113,6 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         $reservation -> delete();
-        return redirect() -> route('reservations.index')->withErrors('Rezervasyon silindi!');
+        return redirect() -> route('reservations.index')->withError('Rezervasyon silindi!');
     }
 }
